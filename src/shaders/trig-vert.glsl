@@ -1,4 +1,5 @@
 #version 300 es
+#define M_PI 3.1415926535897932384626433832795
 
 //This is a vertex shader. While it is called a "shader" due to outdated conventions, this file
 //is used to apply matrix transformations to the arrays of vertex data passed to it.
@@ -41,9 +42,24 @@ const vec4 lightPos = vec4(5, 5, 3, 1); //The position of our virtual light, whi
     //derive phi and theta angles based on position.
     //use angles to get wavy look in both x and y direction of spere
 float lowFreqDisp(vec4 pos) {
-    float disp = 0.1 * sin(8. * dot(vec4(1.), pos));
+    //float disp = 0.1 * sin(8. * dot(vec4(1.), pos));
     //float disp2 = 0.1 * sin(8. * dot(vec4(1.), vec4(pos.y, pos.z, pos.x, 1.)));
-    return disp + disp2;
+    //axis test
+
+    float phi = atan(pos[0]/pos[1]);
+    if (pos[1] == 0.) {phi = M_PI / 2.;}
+    float theta = atan(sqrt(pow(pos[0], 2.) + pow(pos[1], 2.))/pos[2]);
+    if (pos[2] == 0.) {theta = M_PI / 2.;}
+
+    float offset = 1.;
+    float offScale = sin(0.1 * u_Time);
+    offset *= offScale;
+
+    float disp1 = 0.08 * sin(4. * phi);
+    float disp2 = 0.08 * sin(4. * theta);
+    
+    float finalDisp = (disp1 + disp2) * offset;
+    return finalDisp;
 }
 
 float fbm(vec4 pos) {

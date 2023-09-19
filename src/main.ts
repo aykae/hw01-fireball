@@ -10,7 +10,6 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
-  tesselations: 5,
   'Load Scene': loadScene, // A function pointer, essentially
   'Flame Intensity': 3,
   'color': [255, 60, 0],
@@ -20,7 +19,7 @@ const controls = {
 
 let icosphere: Icosphere;
 let prevTesselations: number = 5;
-let initTesselations: number = 3;
+let initTesselations: number = 4;
 let color: number[] = [255, 60, 0];
 let colorVec: vec4;
 
@@ -80,12 +79,6 @@ function main() {
     stats.begin();
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
-    if(controls.tesselations != prevTesselations)
-    {
-      prevTesselations = controls.tesselations;
-      icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, prevTesselations);
-      icosphere.create();
-    }
 
     //AKR:
     if(controls.color != color)

@@ -92,7 +92,6 @@ float cnoise(vec3 P){
   return 2.2 * n_xyz;
 }
 
-
 float fbm(vec4 pos) {
     float total = 0.0f;
     float pers = 1.0f / 2.0f;
@@ -125,9 +124,10 @@ void main()
 
     float ambientTerm = 0.2;
 
-    float lightIntensity = diffuseTerm + ambientTerm;   //Add a small float value to the color multiplier
+    //float lightIntensity = diffuseTerm + ambientTerm;   //Add a small float value to the color multiplier
                                                         //to simulate ambient lighting. This ensures that faces that are not
                                                         //lit by our point light are not completely black.
+    float lightIntensity = .75;
 
     // Compute final shaded color
     out_Col = vec4(diffuseColor.rgb * lightIntensity, diffuseColor.a);

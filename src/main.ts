@@ -13,14 +13,15 @@ const controls = {
   tesselations: 5,
   'Load Scene': loadScene, // A function pointer, essentially
   'Flame Intensity': 3,
-  'color': [255, 0, 0],
+  'color': [255, 60, 0],
   'Next Color': loadScene, //PLACEHOLDER
+  'Reset': loadScene //PLACEHOLDER
 };
 
 let icosphere: Icosphere;
 let prevTesselations: number = 5;
 let initTesselations: number = 3;
-let color: number[] = [255, 0, 0];
+let color: number[] = [255, 60, 0];
 let colorVec: vec4;
 
 function loadScene() {
@@ -44,6 +45,7 @@ function main() {
   gui.add(controls, 'Flame Intensity', 0, 10).step(0.1);
   gui.addColor(controls, 'color');
   gui.add(controls, 'Next Color');
+  gui.add(controls, 'Reset');
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');

@@ -42,6 +42,11 @@ float jitter(float seed, vec4 pos) {
     return 0.05 * sin(seed * posSeed * 0.1);
 }
 
+float lowFreqDisp(vec4 pos) {
+    float disp = 0.1 * sin(8. * dot(vec4(1.), pos) + 0.1 * u_Time);
+    return disp;
+}
+
 void main()
 {
     fs_Col = vs_Col;                         // Pass the vertex colors to the fragment shader for interpolation
@@ -55,7 +60,7 @@ void main()
                                                             // the model matrix.
 
     vec4 modelposition = u_Model * vs_Pos;   // Temporarily store the transformed vertex positions for use below
-    modelposition = modelposition + jitter(u_Time, vs_Pos);
+    modelposition = modelposition + (fs_Nor * lowFreqDisp(modelposition));
 
     fs_LightVec = lightPos - modelposition;  // Compute the direction in which the light source lies
 

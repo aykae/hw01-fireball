@@ -94,10 +94,10 @@ float cnoise(vec3 P){
 
 float fbm(vec4 pos) {
     float total = 0.0f;
-    float pers = 1.0f / 2.0f;
-    float octaves = 5.0f;
+    float pers = 4.0f / 5.0f;
+    float octaves = 10.0f;
 
-    for (float i = 0.0f; i < octaves; i++) {
+    for (float i = 1.0f; i < octaves; i++) {
         float freq = pow(2.0f, i);
         float amp = pow(pers, i);
 
@@ -109,13 +109,14 @@ float fbm(vec4 pos) {
 void main()
 {
     // Material base color (before shading)
-    vec4 complement = vec4(1.0f) - u_Color;
-    complement[3] = 1.0f;
-    //float noise = fbm(fs_Pos * 2. + u_Time * 0.1);
-    float noise = fbm(fs_Pos * 2.);
-    float fade = fract(6.0f * pow(noise, 5.0f) - 15.0f * pow(noise, 4.0f) + 10.0f * pow(noise, 3.0f));
-    vec4 diffuseColor = mix(u_Color, complement, fade); //u_Color;
-    //vec4 diffuseColor = u_Color * fade;
+    float noise = fbm(fs_Pos * 2.5 + u_Time * 0.005);
+    //float noise = fbm(fs_Pos * 2.);
+    vec4 color1 = vec4(1., 120./255., 80./255., 1.);
+    vec4 color2 = vec4(1., 0., 0., 1.);
+
+    float ss = smoothstep(0., 1., noise);
+    //vec4 diffuseColor = mix(color1, color2, ss); //u_Color;
+    vec4 diffuseColor = mix(color1, color2, noise); //u_Color;
 
     // Calculate the diffuse term for Lambert shading
     float diffuseTerm = dot(normalize(fs_Nor), normalize(fs_LightVec));

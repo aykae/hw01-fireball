@@ -24,6 +24,7 @@ class ShaderProgram {
   attrPos: number;
   attrNor: number;
   attrCol: number;
+
   //AKR:
   attrTime: WebGLUniformLocation;
 

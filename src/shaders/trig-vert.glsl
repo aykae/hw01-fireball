@@ -37,14 +37,27 @@ const vec4 lightPos = vec4(5, 5, 3, 1); //The position of our virtual light, whi
                                         //the geometry in the fragment shader.
 
 
-float jitter(float seed, vec4 pos) {
-    float posSeed = fract(dot(pos, vec4(234.234, 365.42, 76.456, 945.4)));
-    return 0.05 * sin(seed * posSeed * 0.1);
+//TODO:
+    //derive phi and theta angles based on position.
+    //use angles to get wavy look in both x and y direction of spere
+float lowFreqDisp(vec4 pos) {
+    float disp = 0.1 * sin(8. * dot(vec4(1.), pos));
+    //float disp2 = 0.1 * sin(8. * dot(vec4(1.), vec4(pos.y, pos.z, pos.x, 1.)));
+    return disp + disp2;
 }
 
-float lowFreqDisp(vec4 pos) {
-    float disp = 0.1 * sin(8. * dot(vec4(1.), pos) + 0.1 * u_Time);
-    return disp;
+float fbm(vec4 pos) {
+    float total = 0.0f;
+    float pers = 1.0f / 2.0f;
+    float octaves = 5.0f;
+
+    for (float i = 0.0f; i < octaves; i++) {
+        float freq = pow(2.0f, i);
+        float amp = pow(pers, i);
+
+        total += amp * sin(dot(vec3(1.), vec3(pos)) * freq);
+    }
+    return total;
 }
 
 void main()

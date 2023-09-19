@@ -46,19 +46,30 @@ float lowFreqDisp(vec4 pos) {
     //float disp2 = 0.1 * sin(8. * dot(vec4(1.), vec4(pos.y, pos.z, pos.x, 1.)));
     //axis test
 
-    float phi = atan(pos[0]/pos[1]);
-    if (pos[1] == 0.) {phi = M_PI / 2.;}
+    //ARCTAN SPHERICAL COORDS
     float theta = atan(sqrt(pow(pos[0], 2.) + pow(pos[1], 2.))/pos[2]);
-    if (pos[2] == 0.) {theta = M_PI / 2.;}
+    if (pos.z == 0.) {theta = M_PI / 2.;}
+    float phi = atan(pos.y/pos.x);
+    if (pos.x == 0.) {phi = M_PI / 2.;}
+
+    //ARCCOS SPHERICAL COORDS
+    /*
+    float theta = acos(pos.z / sqrt(pow(pos.x, 2.) + pow(pos.y, 2.) + pow(pos.z, 2.)));
+    float phi = sign(pos.y) * acos(pos.x / sqrt(pow(pos.x, 2.) + pow(pos.y, 2.)));
+    */
 
     float offset = 1.;
     float offScale = sin(0.1 * u_Time);
     offset *= offScale;
-
-    float disp1 = 0.08 * sin(4. * phi);
-    float disp2 = 0.08 * sin(4. * theta);
     
-    float finalDisp = (disp1 + disp2) * offset;
+    float speed = 0.5;
+    float freq = 6.;
+    float amp = 0.05;
+
+    float disp1 = amp * sin((freq * phi) + (speed * u_Time));
+    float disp2 = amp * sin((freq * theta) + (speed * u_Time));
+    
+    float finalDisp = (disp1 + disp2);
     return finalDisp;
 }
 

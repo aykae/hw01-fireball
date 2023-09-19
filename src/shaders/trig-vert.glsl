@@ -43,7 +43,7 @@ const vec4 lightPos = vec4(5, 5, 3, 1); //The position of our virtual light, whi
     //use angles to get wavy look in both x and y direction of spere
 float lowFreqDisp(vec4 pos) {
     //ARCTAN SPHERICAL COORDS
-    float theta = atan(sqrt(pow(pos[0], 2.) + pow(pos[1], 2.))/pos[2]);
+    float theta = atan(sqrt(pow(pos.x, 2.) + pow(pos.y, 2.))/pos.z);
     if (pos.z == 0.) {theta = M_PI / 2.;}
     float phi = atan(pos.y/pos.x);
     if (pos.x == 0.) {phi = M_PI / 2.;}
@@ -68,21 +68,22 @@ float lowFreqDisp(vec4 pos) {
 }
 
 float fbm(vec4 pos) {
-    float theta = atan(sqrt(pow(pos[0], 2.) + pow(pos[1], 2.))/pos[2]);
+    float theta = atan(sqrt(pow(pos.x, 2.) + pow(pos.y, 2.))/pos.z);
     if (pos.z == 0.) {theta = M_PI / 2.;}
     float phi = atan(pos.y/pos.x);
     if (pos.x == 0.) {phi = M_PI / 2.;}
 
     float total = 0.0f;
-    float pers = 0.1;
-    float octaves = 4.0f;
+    float pers = 0.01;
+    float freqBase = 10.;
+    float octaves = 10.0f;
 
-    for (float i = 0.; i < octaves; i++) {
-        float freq = pow(2., i);
+    for (float i = 1.; i < octaves; i++) {
+        float freq = pow(freqBase, i);
         float amp = pow(pers, i);
 
-        total += amp * sin(theta * freq);
-        total += amp * sin(phi * freq);
+        total += amp * sin(theta * freq + 0.1 * u_Time);
+        total += amp * sin(phi * freq + 0.1 * u_Time);
     }
     return total;
 }
@@ -104,8 +105,7 @@ void main()
                                                             // the model matrix.
 
     vec4 modelposition = u_Model * vs_Pos;   // Temporarily store the transformed vertex positions for use below
-    modelposition += (fs_Nor * lowFreqDisp(modelposition));
-    //modelposition += (fs_Nor * (lowFreqDisp(modelposition) + fbm(modelposition)));
+    modelposition += (fs_Nor * (lowFreqDisp(modelposition) + fbm(modelposition)));
 
     fs_LightVec = lightPos - modelposition;  // Compute the direction in which the light source lies
 

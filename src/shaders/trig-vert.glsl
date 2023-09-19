@@ -42,21 +42,11 @@ const vec4 lightPos = vec4(5, 5, 3, 1); //The position of our virtual light, whi
     //derive phi and theta angles based on position.
     //use angles to get wavy look in both x and y direction of spere
 float lowFreqDisp(vec4 pos) {
-    //float disp = 0.1 * sin(8. * dot(vec4(1.), pos));
-    //float disp2 = 0.1 * sin(8. * dot(vec4(1.), vec4(pos.y, pos.z, pos.x, 1.)));
-    //axis test
-
     //ARCTAN SPHERICAL COORDS
     float theta = atan(sqrt(pow(pos[0], 2.) + pow(pos[1], 2.))/pos[2]);
     if (pos.z == 0.) {theta = M_PI / 2.;}
     float phi = atan(pos.y/pos.x);
     if (pos.x == 0.) {phi = M_PI / 2.;}
-
-    //ARCCOS SPHERICAL COORDS
-    /*
-    float theta = acos(pos.z / sqrt(pow(pos.x, 2.) + pow(pos.y, 2.) + pow(pos.z, 2.)));
-    float phi = sign(pos.y) * acos(pos.x / sqrt(pow(pos.x, 2.) + pow(pos.y, 2.)));
-    */
 
     float offset = 1.;
     float offScale = sin(0.1 * u_Time);
@@ -66,25 +56,39 @@ float lowFreqDisp(vec4 pos) {
     float freq = 6.;
     float amp = 0.05;
 
-    float disp1 = amp * sin((freq * phi) + (speed * u_Time));
-    float disp2 = amp * sin((freq * theta) + (speed * u_Time));
+    float timeOffset = speed * u_Time;
+
+    float disp1 = amp * sin(freq * phi + timeOffset);
+    float disp2 = amp * sin(freq * theta + timeOffset);
     
     float finalDisp = (disp1 + disp2);
     return finalDisp;
+
+    //RANDOMIZE A BIT
 }
 
 float fbm(vec4 pos) {
-    float total = 0.0f;
-    float pers = 1.0f / 2.0f;
-    float octaves = 5.0f;
+    float theta = atan(sqrt(pow(pos[0], 2.) + pow(pos[1], 2.))/pos[2]);
+    if (pos.z == 0.) {theta = M_PI / 2.;}
+    float phi = atan(pos.y/pos.x);
+    if (pos.x == 0.) {phi = M_PI / 2.;}
 
-    for (float i = 0.0f; i < octaves; i++) {
-        float freq = pow(2.0f, i);
+    float total = 0.0f;
+    float pers = 0.1;
+    float octaves = 4.0f;
+
+    for (float i = 0.; i < octaves; i++) {
+        float freq = pow(2., i);
         float amp = pow(pers, i);
 
-        total += amp * sin(dot(vec3(1.), vec3(pos)) * freq);
+        total += amp * sin(theta * freq);
+        total += amp * sin(phi * freq);
     }
     return total;
+}
+
+float noiseDisp(vec4 pos) {
+    return 0.;
 }
 
 void main()
@@ -100,7 +104,8 @@ void main()
                                                             // the model matrix.
 
     vec4 modelposition = u_Model * vs_Pos;   // Temporarily store the transformed vertex positions for use below
-    modelposition = modelposition + (fs_Nor * lowFreqDisp(modelposition));
+    modelposition += (fs_Nor * lowFreqDisp(modelposition));
+    //modelposition += (fs_Nor * (lowFreqDisp(modelposition) + fbm(modelposition)));
 
     fs_LightVec = lightPos - modelposition;  // Compute the direction in which the light source lies
 

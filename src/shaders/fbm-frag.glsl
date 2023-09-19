@@ -112,8 +112,8 @@ void main()
     // Material base color (before shading)
     vec4 complement = vec4(1.0f) - u_Color;
     complement[3] = 1.0f;
-    float noise = fbm(fs_Pos * 2. + u_Time * 0.01);
-    //float noise = fbm(fs_Pos * 0.001);
+    //float noise = fbm(fs_Pos * 2. + u_Time * 0.01);
+    float noise = fbm(fs_Pos * 2.);
     float fade = fract(6.0f * pow(noise, 5.0f) - 15.0f * pow(noise, 4.0f) + 10.0f * pow(noise, 3.0f));
     vec4 diffuseColor = mix(u_Color, complement, fade); //u_Color;
     //vec4 diffuseColor = u_Color * fade;

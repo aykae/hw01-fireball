@@ -1,5 +1,13 @@
 # [Project 1: Noise](https://github.com/CIS-566-Fall-2022/hw01-fireball-base)
 
+## Submission | Aboudi Rai
+
+DAT.gui ideas
+1. Next Color -> increments index through a list of color palettes (most likely pairs)
+    -> this is preferable to a color picker which wouldn't always result the resemblance of a star
+2. Speed of Animation -> scalar that is multiplied to time to increase speed of animatin
+3. 
+
 ## Objective
 
 Get comfortable with using WebGL and its shaders to generate an interesting 3D, continuous surface using a multi-octave noise algorithm.

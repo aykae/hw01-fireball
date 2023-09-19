@@ -2,8 +2,6 @@ import {vec3, vec4} from 'gl-matrix';
 const Stats = require('stats-js');
 import * as DAT from 'dat.gui';
 import Icosphere from './geometry/Icosphere';
-import Square from './geometry/Square';
-import Cube from './geometry/Cube';
 import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
 import Camera from './Camera';
 import {setGL} from './globals';
@@ -14,23 +12,20 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 const controls = {
   tesselations: 5,
   'Load Scene': loadScene, // A function pointer, essentially
-  color: [255, 0, 0]
+  'Flame Intensity': 3,
+  'color': [255, 0, 0],
+  'Next Color': loadScene, //PLACEHOLDER
 };
 
 let icosphere: Icosphere;
-let square: Square;
-let cube: Cube;
 let prevTesselations: number = 5;
+let initTesselations: number = 3;
 let color: number[] = [255, 0, 0];
 let colorVec: vec4;
 
 function loadScene() {
-  icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, controls.tesselations);
-  //icosphere.create();
-  square = new Square(vec3.fromValues(0, 0, 0));
-  //square.create();
-  cube = new Cube(vec3.fromValues(0, 0, 0));
-  cube.create();
+  icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, initTesselations);
+  icosphere.create();
 }
 
 function main() {
@@ -44,9 +39,11 @@ function main() {
 
   // Add controls to the gui
   const gui = new DAT.GUI();
-  gui.add(controls, 'tesselations', 0, 8).step(1);
+  //gui.add(controls, 'tesselations', 0, 8).step(1);
   gui.add(controls, 'Load Scene');
+  gui.add(controls, 'Flame Intensity', 0, 10).step(0.1);
   gui.addColor(controls, 'color');
+  gui.add(controls, 'Next Color');
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -97,12 +94,9 @@ function main() {
     }
     renderer.render(camera, fbm, [
       icosphere
-      //square,
-      //cube
     ]);
 
     fbm.setTime(t);
-    //console.log(t);
     t = t + 1.0;
 
     stats.end();

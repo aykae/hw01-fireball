@@ -2,13 +2,7 @@
 
 ## Submission | Aboudi Rai
 
-DAT.gui ideas
-1. Next Color -> increments index through a list of color palettes (most likely pairs)
-    -> this is preferable to a color picker which wouldn't always result the resemblance of a star
-2. Speed of Animation -> scalar that is multiplied to time to increase speed of animatin
-3. 
-
-## Requrements
+## Requirements
 ### Noise Generation
 - [x] Low-Freq, High-Amp Displacement
 - [x] High-Freq, Low-Amp Displacement
@@ -16,8 +10,18 @@ DAT.gui ideas
 - [x] Both vertex and fragment shader animated
 - [ ] Use Four Toolbox Functions
     - sin()
-    - mix() (lerp)
-### Noise Application
+    - mix() [lerp]
+### Interactvity
+- [ ] Three DAT.gui customizable attributes
+    - Color Dropdown
+    - Animation Speed Slider
+    - Fireball motion (some kind of translational jitter on entire ball)
+- [ ] Reset Button
+
+### Extra Spice
+- [ ] Background
+    - Randomly generated stars
+    - rotating star-shaped flares (see lab)
 
 ---
 

@@ -116,7 +116,12 @@ void main()
 
     float ss = smoothstep(0., 1., noise);
     //vec4 diffuseColor = mix(color1, color2, ss); //u_Color;
-    vec4 diffuseColor = mix(color1, color2, noise); //u_Color;
+    //vec4 diffuseColor = mix(color1, color2, noise); //u_Color;
+    vec4 diffuseColor = vec4(1.0);
+    for (int i = 0; i < 4; i++) {
+        diffuseColor[i] = smoothstep(color1[i], color2[i], noise);
+        //diffuseColor[i] = mix(color1[i], color2[i], noise);
+    }
 
     // Calculate the diffuse term for Lambert shading
     float diffuseTerm = dot(normalize(fs_Nor), normalize(fs_LightVec));

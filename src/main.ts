@@ -69,8 +69,8 @@ function main() {
   gl.enable(gl.DEPTH_TEST);
 
   let fbm = new ShaderProgram([
-    new Shader(gl.VERTEX_SHADER, require('./shaders/trig-vert.glsl')),
-    new Shader(gl.FRAGMENT_SHADER, require('./shaders/fbm-frag.glsl')),
+    new Shader(gl.VERTEX_SHADER, require('./shaders/fire-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/fire-frag.glsl')),
   ]);
 
   // This function will be called every frame

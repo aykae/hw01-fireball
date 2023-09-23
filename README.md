@@ -8,6 +8,19 @@ DAT.gui ideas
 2. Speed of Animation -> scalar that is multiplied to time to increase speed of animatin
 3. 
 
+## Requrements
+### Noise Generation
+- [x] Low-Freq, High-Amp Displacement
+- [x] High-Freq, Low-Amp Displacement
+- [ ] Fragment Shader gradient: dependent on displacement
+- [x] Both vertex and fragment shader animated
+- [ ] Use Four Toolbox Functions
+    - sin()
+    - mix() (lerp)
+### Noise Application
+
+---
+
 ## Objective
 
 Get comfortable with using WebGL and its shaders to generate an interesting 3D, continuous surface using a multi-octave noise algorithm.

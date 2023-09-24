@@ -16,6 +16,7 @@
     - Color Dropdown
     - Animation Speed Slider
     - Fireball motion (some kind of translational jitter on entire ball)
+        - Rotational Axis
 - [ ] Reset Button
 
 ### Extra Spice

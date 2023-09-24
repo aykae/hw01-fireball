@@ -58,7 +58,7 @@ function main() {
   const gui = new DAT.GUI();
   //gui.add(controls, 'tesselations', 0, 8).step(1);
 
-  gui.add({ Color: selectedColor }, "Color", colors);
+  var dropdown = gui.add({ Color: selectedColor }, "Color", colors);
 
   gui.add(controls, 'Flame Intensity', 0, 10).step(0.1);
   gui.add(controls, 'Reset');
@@ -108,6 +108,7 @@ function main() {
     if(controls.Color != selectedColor)
     {
       selectedColor = controls.Color;
+      dropdown.setValue(selectedColor);
       fire.setColor1(colorDict.get(selectedColor)[0]);
       fire.setColor2(colorDict.get(selectedColor)[1]);
     }

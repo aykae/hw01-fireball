@@ -92,7 +92,7 @@ function main() {
 
   gl.enable(gl.DEPTH_TEST);
 
-  let fbm = new ShaderProgram([
+  let fire = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/fire-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/fire-frag.glsl')),
   ]);
@@ -104,11 +104,26 @@ function main() {
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
 
-    renderer.render(camera, fbm, [
+    if(controls.Color != color)
+    {
+      color = controls.Color;
+      colorVec = vec4.fromValues(color[0]/255, color[1]/255, color[2]/255, 1);
+      // TODO
+      fire.setGeometryColor(colorVec);
+    }
+
+    if(controls['Flame Intensity'] != intensity)
+    {
+      intensity = controls['Flame Intensity']
+      // TODO
+      fire.setGeometryColor(colorVec);
+    }
+
+    renderer.render(camera, fire, [
       icosphere
     ]);
 
-    fbm.setTime(t);
+    fire.setTime(t);
     t = t + 1.0;
 
     stats.end();

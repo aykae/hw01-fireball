@@ -16,12 +16,13 @@ let initTesselations: number = 4;
 let colorVec: vec4;
 let colors:string[] = ["Original", "Cool Blue", "Emerald Green"];
 let selectedColor:string = "Original";
-let intensity:number = 5.0;
+let intensity:number = 1.5;
 
 const colorDict = new Map();
 colorDict.set("Original", [[1., 120./255., 80./255., 1.], [1., 0., 0., 1.]]);
 colorDict.set("Cool Blue", [[25./255., 144./255., 249./255., 1.], [0., 0., 200./255., 1.]]);
-colorDict.set("Emerald Green", [[25./255., 249./255., 108./255., 1.], [0., 100./255., 53./255., 1.]]);
+colorDict.set("Emerald Green", [[15./255., 255./255., 80./255., 1.], [0., 60./255., 5./255., 1.]]);
+
 
 const controls = {
   'Color': selectedColor,
@@ -34,6 +35,8 @@ function loadScene() {
   icosphere.create();
   controls.Color = "Original";
   selectedColor = "";
+  controls['Flame Intensity'] = 1.5;
+  intensity = 0.;
 }
 
 function resetScene() {
@@ -115,8 +118,8 @@ function main() {
 
     if(controls['Flame Intensity'] != intensity)
     {
-      intensity = controls['Flame Intensity']
-      //TODO:
+      intensity = controls['Flame Intensity'];
+      fire.setIntensity(intensity);
     }
 
     renderer.render(camera, fire, [

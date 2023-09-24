@@ -21,6 +21,7 @@ uniform mat4 u_ViewProj;    // The matrix that defines the camera's transformati
                             // but in HW3 you'll have to generate one yourself
 
 uniform float u_Time;
+uniform float u_Intensity;
 
 in vec4 vs_Pos;             // The array of vertex positions passed to the shader
 
@@ -52,11 +53,11 @@ float lowFreqDisp(vec4 pos) {
     float offScale = sin(0.1 * u_Time);
     offset *= offScale;
     
-    float speed = 0.5;
+    float speedConstant = 0.1;
     float freq = 6.;
     float amp = 0.05;
 
-    float timeOffset = speed * u_Time;
+    float timeOffset = speedConstant * u_Intensity * u_Time;
 
     float disp1 = amp * sin(freq * phi + timeOffset);
     float disp2 = amp * sin(freq * theta + timeOffset);
@@ -77,13 +78,15 @@ float fbm(vec4 pos) {
     float pers = 0.01;
     float freqBase = 10.;
     float octaves = 10.0f;
+    float speedConstant = 0.002;
 
     for (float i = 1.; i < octaves; i++) {
         float freq = pow(freqBase, i);
         float amp = pow(pers, i);
+        float timeConstant = speedConstant * u_Intensity * u_Time;
 
-        total += amp * sin(theta * freq + 0.1 * u_Time);
-        total += amp * sin(phi * freq + 0.1 * u_Time);
+        total += amp * sin(theta * freq + timeConstant);
+        total += amp * sin(phi * freq + timeConstant);
     }
     return total;
 }

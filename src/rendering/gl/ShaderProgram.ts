@@ -27,6 +27,7 @@ class ShaderProgram {
 
   //AKR:
   attrTime: WebGLUniformLocation;
+  attrIntensity: WebGLUniformLocation;
 
   unifModel: WebGLUniformLocation;
   unifModelInvTr: WebGLUniformLocation;
@@ -52,11 +53,14 @@ class ShaderProgram {
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
+
+    //AKR:
     this.unifColor1      = gl.getUniformLocation(this.prog, "u_Color1");
     this.unifColor2      = gl.getUniformLocation(this.prog, "u_Color2");
 
     //AKR:
     this.attrTime = gl.getUniformLocation(this.prog, "u_Time");
+    this.attrIntensity = gl.getUniformLocation(this.prog, "u_Intensity");
 
   }
 
@@ -107,6 +111,13 @@ class ShaderProgram {
     if (this.attrTime !== -1) {
         gl.uniform1f(this.attrTime, time);
         //console.log(time);
+    }
+  }
+
+  setIntensity(intensity: number) {
+    this.use();
+    if (this.attrTime !== -1) {
+        gl.uniform1f(this.attrIntensity, intensity);
     }
   }
 

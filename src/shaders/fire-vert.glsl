@@ -23,6 +23,8 @@ uniform mat4 u_ViewProj;    // The matrix that defines the camera's transformati
 uniform float u_Time;
 uniform float u_Intensity;
 
+uniform float u_AngVel; 
+
 in vec4 vs_Pos;             // The array of vertex positions passed to the shader
 
 in vec4 vs_Nor;             // The array of vertex normals passed to the shader
@@ -95,6 +97,18 @@ float noiseDisp(vec4 pos) {
     return 0.;
 }
 
+vec4 orbit(vec4 pos) {
+    float angVel = 0.005;
+    float theta = angVel * u_Time;
+    vec4 rotVec = vec4(1.);
+
+    rotVec[0] = cos(theta) * pos.x + sin(theta) * pos.z;
+    rotVec[1] = pos.y;
+    rotVec[2] = -sin(theta) * pos.x + cos(theta) * pos.z;
+
+    return rotVec;
+}
+
 void main()
 {
     fs_Col = vs_Col;                         // Pass the vertex colors to the fragment shader for interpolation
@@ -108,7 +122,10 @@ void main()
                                                             // the model matrix.
 
     vec4 modelposition = u_Model * vs_Pos;   // Temporarily store the transformed vertex positions for use below
+
     modelposition += (fs_Nor * (lowFreqDisp(modelposition) + fbm(modelposition)));
+
+    modelposition = orbit(modelposition);
 
     fs_LightVec = lightPos - modelposition;  // Compute the direction in which the light source lies
 

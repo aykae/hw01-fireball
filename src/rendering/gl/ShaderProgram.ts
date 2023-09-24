@@ -31,7 +31,8 @@ class ShaderProgram {
   unifModel: WebGLUniformLocation;
   unifModelInvTr: WebGLUniformLocation;
   unifViewProj: WebGLUniformLocation;
-  unifColor: WebGLUniformLocation;
+  unifColor1: WebGLUniformLocation;
+  unifColor2: WebGLUniformLocation;
 
   constructor(shaders: Array<Shader>) {
     this.prog = gl.createProgram();
@@ -51,7 +52,8 @@ class ShaderProgram {
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
-    this.unifColor      = gl.getUniformLocation(this.prog, "u_Color");
+    this.unifColor1      = gl.getUniformLocation(this.prog, "u_Color1");
+    this.unifColor2      = gl.getUniformLocation(this.prog, "u_Color2");
 
     //AKR:
     this.attrTime = gl.getUniformLocation(this.prog, "u_Time");
@@ -86,10 +88,17 @@ class ShaderProgram {
     }
   }
 
-  setGeometryColor(color: vec4) {
+  setColor1(color: vec4) {
     this.use();
-    if (this.unifColor !== -1) {
-      gl.uniform4fv(this.unifColor, color);
+    if (this.unifColor1 !== -1) {
+      gl.uniform4fv(this.unifColor1, color);
+    }
+  }
+
+  setColor2(color: vec4) {
+    this.use();
+    if (this.unifColor2 !== -1) {
+      gl.uniform4fv(this.unifColor2, color);
     }
   }
 

@@ -19,27 +19,28 @@ let selectedColor:string = "Original";
 let intensity:number = 5.0;
 
 const colorDict = new Map();
-colorDict.set("Original", [1., 120./255., 80./255., 1.]);
-colorDict.set("Cool Blue", [1., 120./255., 80./255., 1.]);
-colorDict.set("Emerald Green", [1., 120./255., 80./255., 1.]);
-
-var color = colorDict.get("Original");
+colorDict.set("Original", [[1., 120./255., 80./255., 1.], [1., 0., 0., 1.]]);
+colorDict.set("Cool Blue", [[25./255., 144./255., 249./255., 1.], [0., 0., 200./255., 1.]]);
+colorDict.set("Emerald Green", [[25./255., 249./255., 108./255., 1.], [0., 100./255., 53./255., 1.]]);
 
 const controls = {
-  'Color': selectedColor, //PLACEHOLDER
+  'Color': selectedColor,
   'Flame Intensity': intensity,
-  'Reset': resetScene //PLACEHOLDER
+  'Reset': resetScene
 };
 
 function loadScene() {
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, initTesselations);
   icosphere.create();
+  controls.Color = "Original";
+  selectedColor = "";
 }
 
 function resetScene() {
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, initTesselations);
   icosphere.create();
-  selectedColor = "Original";
+  controls.Color = "Original";
+  selectedColor = "";
   intensity = 5.0;
   console.log("Reset Scene");
 }
@@ -63,7 +64,7 @@ function main() {
   gui.add(controls, 'Reset');
 
   gui.__controllers[0].onChange(function (value) {
-    color = colorDict.get(value);
+    controls.Color = value;
     console.log("Selected option: " + value);
   });
 
@@ -104,19 +105,17 @@ function main() {
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
 
-    if(controls.Color != color)
+    if(controls.Color != selectedColor)
     {
-      color = controls.Color;
-      colorVec = vec4.fromValues(color[0]/255, color[1]/255, color[2]/255, 1);
-      // TODO
-      fire.setGeometryColor(colorVec);
+      selectedColor = controls.Color;
+      fire.setColor1(colorDict.get(selectedColor)[0]);
+      fire.setColor2(colorDict.get(selectedColor)[1]);
     }
 
     if(controls['Flame Intensity'] != intensity)
     {
       intensity = controls['Flame Intensity']
-      // TODO
-      fire.setGeometryColor(colorVec);
+      //TODO:
     }
 
     renderer.render(camera, fire, [

@@ -2,7 +2,8 @@
 
 precision highp float;
 
-uniform vec4 u_Color; // The color with which to render this instance of geometry.
+uniform vec4 u_Color1; // The color with which to render this instance of geometry.
+uniform vec4 u_Color2; // The color with which to render this instance of geometry.
 
 //AKR
 uniform float u_Time;
@@ -110,8 +111,10 @@ void main()
 {
     // Material base color (before shading)
     float noise = fbm(fs_Pos * 2.5 + u_Time * 0.005);
-    vec4 color1 = vec4(1., 120./255., 80./255., 1.);
-    vec4 color2 = vec4(1., 0., 0., 1.);
+    vec4 color1 = u_Color1;
+    vec4 color2 = u_Color2;
+    //vec4 color1 = vec4(1., 120./255., 80./255., 1.);
+    //vec4 color2 = vec4(1., 0., 0., 1.);
 
     vec4 diffuseColor = mix(color1, color2, noise); //u_Color;
 

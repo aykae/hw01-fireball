@@ -9,16 +9,27 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
-const controls = {
-  'Flame Intensity': 3,
-  'Next Color': loadScene, //PLACEHOLDER
-  'Reset': resetScene //PLACEHOLDER
-};
 
 let icosphere: Icosphere;
 let prevTesselations: number = 5;
 let initTesselations: number = 4;
 let colorVec: vec4;
+let colors:string[] = ["Original", "Cool Blue", "Emerald Green"];
+let selectedColor:string = "Original";
+let intensity:number = 5.0;
+
+const colorDict = new Map();
+colorDict.set("Original", [1., 120./255., 80./255., 1.]);
+colorDict.set("Cool Blue", [1., 120./255., 80./255., 1.]);
+colorDict.set("Emerald Green", [1., 120./255., 80./255., 1.]);
+
+var color = colorDict.get("Original");
+
+const controls = {
+  'Color': selectedColor, //PLACEHOLDER
+  'Flame Intensity': intensity,
+  'Reset': resetScene //PLACEHOLDER
+};
 
 function loadScene() {
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, initTesselations);
@@ -28,6 +39,9 @@ function loadScene() {
 function resetScene() {
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, initTesselations);
   icosphere.create();
+  selectedColor = "Original";
+  intensity = 5.0;
+  console.log("Reset Scene");
 }
 
 function main() {
@@ -43,13 +57,15 @@ function main() {
   const gui = new DAT.GUI();
   //gui.add(controls, 'tesselations', 0, 8).step(1);
 
-  let colors: string[] = ["Color 1", "Color 2", "Color 3"];
-  var selectedColor = "Color 1"; // Default selected option
   gui.add({ Color: selectedColor }, "Color", colors);
 
   gui.add(controls, 'Flame Intensity', 0, 10).step(0.1);
   gui.add(controls, 'Reset');
 
+  gui.__controllers[0].onChange(function (value) {
+    color = colorDict.get(value);
+    console.log("Selected option: " + value);
+  });
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -88,20 +104,9 @@ function main() {
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
 
-    //AKR:
-    /*
-    if(controls.color != color)
-    {
-      color = controls.color;
-      colorVec = vec4.fromValues(color[0]/255, color[1]/255, color[2]/255, 1);
-      fbm.setGeometryColor(colorVec);
-    }
-    */
-
     renderer.render(camera, fbm, [
       icosphere
     ]);
-
 
     fbm.setTime(t);
     t = t + 1.0;

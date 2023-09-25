@@ -39,6 +39,8 @@ function loadScene() {
   selectedColor = "";
   controls['Flame Intensity'] = 1.5;
   intensity = 0.;
+  controls['Angular Velocity'] = 5.;
+  angVel = 0.;
 }
 
 function resetScene() {
@@ -48,6 +50,8 @@ function resetScene() {
   selectedColor = "";
   controls['Flame Intensity'] = 1.5;
   intensity = 0.;
+  controls['Angular Velocity'] = 5.;
+  angVel = 0.;
   console.log("Reset Scene");
 }
 

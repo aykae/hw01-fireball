@@ -62,6 +62,7 @@ class ShaderProgram {
     //AKR:
     this.attrTime = gl.getUniformLocation(this.prog, "u_Time");
     this.attrIntensity = gl.getUniformLocation(this.prog, "u_Intensity");
+    this.attrAngVel = gl.getUniformLocation(this.prog, "u_AngVel");
 
   }
 

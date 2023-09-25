@@ -28,6 +28,7 @@ class ShaderProgram {
   //AKR:
   attrTime: WebGLUniformLocation;
   attrIntensity: WebGLUniformLocation;
+  attrAngVel: WebGLUniformLocation;
 
   unifModel: WebGLUniformLocation;
   unifModelInvTr: WebGLUniformLocation;
@@ -116,8 +117,16 @@ class ShaderProgram {
 
   setIntensity(intensity: number) {
     this.use();
-    if (this.attrTime !== -1) {
+    if (this.attrIntensity !== -1) {
         gl.uniform1f(this.attrIntensity, intensity);
+    }
+  }
+
+  setAngVel(angVel: number) {
+    this.use();
+    if (this.attrAngVel !== -1) {
+        gl.uniform1f(this.attrAngVel, angVel);
+        console.log(angVel);
     }
   }
 

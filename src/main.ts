@@ -13,20 +13,22 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 let icosphere: Icosphere;
 let prevTesselations: number = 5;
 let initTesselations: number = 4;
-let colorVec: vec4;
+
 let colors:string[] = ["Original", "Cool Blue", "Emerald Green"];
 let selectedColor:string = "Original";
-let intensity:number = 1.5;
-
 const colorDict = new Map();
 colorDict.set("Original", [[1., 120./255., 80./255., 1.], [1., 0., 0., 1.]]);
 colorDict.set("Cool Blue", [[25./255., 144./255., 249./255., 1.], [0., 0., 200./255., 1.]]);
 colorDict.set("Emerald Green", [[15./255., 255./255., 80./255., 1.], [0., 60./255., 5./255., 1.]]);
 
+let intensity:number = 1.5;
+
+let angVel: number = 5.;
 
 const controls = {
   'Color': selectedColor,
   'Flame Intensity': intensity,
+  'Angular Velocity': angVel,
   'Reset': resetScene
 };
 
@@ -44,7 +46,8 @@ function resetScene() {
   icosphere.create();
   controls.Color = "Original";
   selectedColor = "";
-  intensity = 5.0;
+  controls['Flame Intensity'] = 1.5;
+  intensity = 0.;
   console.log("Reset Scene");
 }
 
@@ -62,14 +65,16 @@ function main() {
   //gui.add(controls, 'tesselations', 0, 8).step(1);
 
   var dropdown = gui.add({ Color: selectedColor }, "Color", colors);
-
-  gui.add(controls, 'Flame Intensity', 0, 10).step(0.1);
-  gui.add(controls, 'Reset');
-
   gui.__controllers[0].onChange(function (value) {
     controls.Color = value;
     console.log("Selected option: " + value);
   });
+
+  var intensityControl = gui.add(controls, 'Flame Intensity', 0, 10).step(0.1);
+
+  var angVelControl = gui.add(controls, 'Angular Velocity', 0, 10).step(0.1);
+
+  gui.add(controls, 'Reset');
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -111,15 +116,26 @@ function main() {
     if(controls.Color != selectedColor)
     {
       selectedColor = controls.Color;
-      dropdown.setValue(selectedColor);
       fire.setColor1(colorDict.get(selectedColor)[0]);
       fire.setColor2(colorDict.get(selectedColor)[1]);
+
+      dropdown.setValue(selectedColor);
     }
 
     if(controls['Flame Intensity'] != intensity)
     {
       intensity = controls['Flame Intensity'];
       fire.setIntensity(intensity);
+
+      intensityControl.setValue(intensity);
+    }
+
+    if(controls['Angular Velocity'] != angVel)
+    {
+      angVel = controls['Angular Velocity'];
+      fire.setAngVel(angVel);
+
+      angVelControl.setValue(angVel);
     }
 
     renderer.render(camera, fire, [

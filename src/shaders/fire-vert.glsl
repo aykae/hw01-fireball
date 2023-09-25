@@ -98,10 +98,10 @@ float noiseDisp(vec4 pos) {
 }
 
 vec4 orbit(vec4 pos) {
-    float angVel = 0.005;
-    float theta = angVel * u_Time;
-    vec4 rotVec = vec4(1.);
+    float scale = 0.025;
+    float theta = scale * u_AngVel * u_Time;
 
+    vec4 rotVec = vec4(1.);
     rotVec[0] = cos(theta) * pos.x + sin(theta) * pos.z;
     rotVec[1] = pos.y;
     rotVec[2] = -sin(theta) * pos.x + cos(theta) * pos.z;

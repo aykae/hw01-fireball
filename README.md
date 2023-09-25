@@ -11,13 +11,16 @@
 - [ ] Use Four Toolbox Functions
     - sin()
     - mix() [lerp]
+    - TODO
+    - gain for orbit 
+    - random placement for stars
 ### Interactvity
-- [ ] Three DAT.gui customizable attributes
+- [x] Three DAT.gui customizable attributes
     - Color Dropdown
     - Animation Speed Slider
     - Fireball motion (some kind of translational jitter on entire ball)
         - Rotational Axis
-- [ ] Reset Button
+- [x] Reset Button
 
 ### Extra Spice
 - [ ] Background

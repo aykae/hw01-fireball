@@ -127,7 +127,6 @@ class ShaderProgram {
     this.use();
     if (this.attrAngVel !== -1) {
         gl.uniform1f(this.attrAngVel, angVel);
-        console.log(angVel);
     }
   }
 

@@ -11,9 +11,11 @@
 - [ ] Use Four Toolbox Functions
     - sin()
     - mix() [lerp]
+    - smoothstep
+
     - TODO
-    - gain for orbit 
     - random placement for stars
+    - gain for orbit 
 ### Interactvity
 - [x] Three DAT.gui customizable attributes
     - Color Dropdown
@@ -23,8 +25,10 @@
 - [x] Reset Button
 
 ### Extra Spice
-- [ ] Background
-    - Randomly generated stars
+- [ ] Background (main.tx, L104)
+    - Put scene in cube?
+    - Make background color flicker based on color selection [black to selectedColor]
+    - Randomly generated stars 
     - rotating star-shaped flares (see lab)
 
 ---

@@ -11,6 +11,7 @@
 - [ ] Use Four Toolbox Functions
     - sin()
     - mix() [lerp]
+    - smoothstep for displacement
     - TODO
     - gain for orbit 
     - random placement for stars

@@ -89,7 +89,11 @@ float lowFreqDisp(vec4 pos) {
     //float disp2 = amp * sin(freq * theta + biasTime);
     
     float finalDisp = (disp1 + disp2);
-    return finalDisp;
+
+    float smoothDisp = smoothstep(-2. * amp, 2. * amp, disp1 + disp2);
+
+    return (disp1 + disp2) * (smoothDisp * 1.1) ;
+    //return finalDisp;
 
     //RANDOMIZE A BIT
 }

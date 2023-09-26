@@ -2,36 +2,6 @@
 
 ## Submission | Aboudi Rai
 
-## Requirements
-### Noise Generation
-- [x] Low-Freq, High-Amp Displacement
-- [x] High-Freq, Low-Amp Displacement
-- [ ] Fragment Shader gradient: dependent on displacement
-- [x] Both vertex and fragment shader animated
-- [ ] Use Four Toolbox Functions
-    - sin()
-    - mix() [lerp]
-    - smoothstep
-
-    - TODO
-    - random placement for stars
-    - gain for orbit 
-### Interactvity
-- [x] Three DAT.gui customizable attributes
-    - Color Dropdown
-    - Animation Speed Slider
-    - Fireball motion (some kind of translational jitter on entire ball)
-        - Rotational Axis
-- [x] Reset Button
-
-### Extra Spice
-- [ ] Background (main.tx, L104)
-    - Put scene in cube?
-    - Make background color flicker based on color selection [black to selectedColor]
-    - Randomly generated stars 
-    - rotating star-shaped flares (see lab)
----
-
 ### Noise Generation
 <p>
 Both the high-amplitude low-frequency noise and low-amplitude high-frequency noise are generated and

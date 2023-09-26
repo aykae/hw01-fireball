@@ -1,4 +1,4 @@
-import {vec3, vec4} from 'gl-matrix';
+import * as glm from 'gl-matrix';
 const Stats = require('stats-js');
 import * as DAT from 'dat.gui';
 import Icosphere from './geometry/Icosphere';
@@ -32,8 +32,12 @@ const controls = {
   'Reset': resetScene
 };
 
+let flicker: number = 0.8;
+let flickNoise: number = 0.5;
+let colorVec: glm.vec4 = colorDict.get(selectedColor)[0];
+
 function loadScene() {
-  icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, initTesselations);
+  icosphere = new Icosphere(glm.vec3.fromValues(0, 0, 0), 1, initTesselations);
   icosphere.create();
   controls.Color = "Original";
   selectedColor = "";
@@ -44,7 +48,7 @@ function loadScene() {
 }
 
 function resetScene() {
-  icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, initTesselations);
+  icosphere = new Icosphere(glm.vec3.fromValues(0, 0, 0), 1, initTesselations);
   icosphere.create();
   controls.Color = "Original";
   selectedColor = "";
@@ -53,6 +57,17 @@ function resetScene() {
   controls['Angular Velocity'] = 5.;
   angVel = 0.;
   console.log("Reset Scene");
+}
+
+function lerp(a: glm.vec4, b: glm.vec4, t: number) {
+
+  var aPrime = glm.vec4.fromValues(0.,0.,0.,0.);
+  aPrime = glm.vec4.scale(aPrime, a, 1-t);
+  var bPrime = glm.vec4.fromValues(0.,0.,0.,0.);
+  bPrime = glm.vec4.scale(bPrime, b, t);
+
+  var lerped = glm.vec4.fromValues(0.,0.,0.,0.);
+  return glm.vec4.add(lerped, aPrime, bPrime);
 }
 
 function main() {
@@ -93,7 +108,7 @@ function main() {
   // Initial call to load scene
   loadScene();
 
-  const camera = new Camera(vec3.fromValues(0, 0, 5), vec3.fromValues(0, 0, 0));
+  const camera = new Camera(glm.vec3.fromValues(0, 0, 5), glm.vec3.fromValues(0, 0, 0));
   //AKR
   //const d = new Date();
   let t = 0.0;
@@ -147,7 +162,14 @@ function main() {
     ]);
 
     fire.setTime(t);
-    t = t + 1.0;
+    t = t + 1.1;
+    
+    //AKR
+    flicker = 0.25 * Math.sin(0.3 * t);
+    flicker *= 0.2 * Math.sin(0.08 * flickNoise * t);
+    flicker += 0.8;
+    colorVec = lerp(colorDict.get(selectedColor)[0], [0., 0., 0., 1.], flicker);
+    renderer.setClearColor(colorVec[0], colorVec[1], colorVec[2], colorVec[3]);
 
     stats.end();
 

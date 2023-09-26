@@ -112,7 +112,6 @@ class ShaderProgram {
     this.use();
     if (this.attrTime !== -1) {
         gl.uniform1f(this.attrTime, time);
-        //console.log(time);
     }
   }
 

@@ -113,8 +113,6 @@ void main()
     float noise = fbm(fs_Pos * 2.5 + u_Time * 0.005);
     vec4 color1 = u_Color1;
     vec4 color2 = u_Color2;
-    //vec4 color1 = vec4(1., 120./255., 80./255., 1.);
-    //vec4 color2 = vec4(1., 0., 0., 1.);
 
     vec4 diffuseColor = mix(color1, color2, noise); //u_Color;
 

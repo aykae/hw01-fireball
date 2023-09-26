@@ -26,6 +26,9 @@ The four toolbox functions used are:
 - Reset: reset all values
 
 ### Spice
+- Background Flickering Effect: I've used trigonometric along with lerp to create a flickering light
+  in the background which corresponds to the color selected by the user.
+
 
 ## Objective
 

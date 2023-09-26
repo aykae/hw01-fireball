@@ -46,13 +46,7 @@ const vec4 lightPos = vec4(5, 5, 3, 1); //The position of our virtual light, whi
     //use angles to get wavy look in both x and y direction of spere
 
 float bias(float b, float t) {
-    //return 1.0;
-    //return pow(log(2.), 1.0);
-    //return pow(.5, log(.5) / log(0.5));
-    //return fract(t);
-
     return pow(t, log(b) / log(0.5));
-
 }
 
 float gain (float g, float t) {
@@ -81,9 +75,8 @@ float lowFreqDisp(vec4 pos) {
 
     float timeOffset = speedConstant * u_Intensity * u_Time;
 
-    //float biasTime = 10. * timeOffset * bias(0.5, fract(u_Time));
-
-    float disp1 = amp * sin(freq * phi + timeOffset);
+    float biasTime = .05 * bias(0.5, fract(u_Time));
+    float disp1 = amp * sin(freq * phi + timeOffset + biasTime);
     float disp2 = amp * sin(freq * theta + timeOffset);
     //float disp1 = amp * sin(freq * phi + biasTime);
     //float disp2 = amp * sin(freq * theta + biasTime);
@@ -127,8 +120,7 @@ float noiseDisp(vec4 pos) {
 
 
 vec4 orbit(vec4 pos) {
-    //float scale = 1000. * gain(0.2, fract(u_Time));
-    //float scale = 1. * bias(.2, fract(u_Time));
+    //float oGain = gain(0.8, fract(u_Time));
     float scale = 0.003;
     float theta = scale * u_AngVel * u_Time;
 

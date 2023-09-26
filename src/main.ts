@@ -162,7 +162,7 @@ function main() {
     ]);
 
     fire.setTime(t);
-    t = t + 1.0;
+    t = t + 1.1;
     
     //AKR
     flicker = 0.25 * Math.sin(0.3 * t);
